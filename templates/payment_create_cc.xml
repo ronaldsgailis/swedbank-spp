@@ -60,7 +60,7 @@
 		</TxnDetails>
 		<HpsTxn>
 			<method>setup_full</method>
-			<page_set_id>2211</page_set_id>
+			<page_set_id>%gateway.page_set_id%</page_set_id>
 			<return_url>%gateway.successurl%</return_url>
 			<expiry_url>%gateway.errorurl%</expiry_url>
 			<error_url>%gateway.errorurl%</error_url>

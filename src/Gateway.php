@@ -56,6 +56,23 @@ class Gateway implements DataSource, LoggerAwareInterface
 	const LANG_LAT = 'lv';
 	const LANG_RUS = 'ru';
 
+    /**
+     * Page set IDs
+     */
+
+    const PAGE_PROD_ENG = 2207;
+    const PAGE_PROD_EST = 2209;
+    const PAGE_PROD_LAT = 2211;
+    const PAGE_PROD_LIT = 2213;
+    const PAGE_PROD_RUS = 2215;
+
+    const PAGE_DEV_ENG = 164;
+    const PAGE_DEV_EST = 166;
+    const PAGE_DEV_LAT = 168;
+    const PAGE_DEV_LIT = 170;
+    const PAGE_DEV_RUS = 172;
+
+
 	/**
 	 * Response codes
 	 */
@@ -96,15 +113,22 @@ class Gateway implements DataSource, LoggerAwareInterface
 	 */
 	protected $mode;
 
+    /**
+     * Hosted Page Set ID
+     * @var int
+     */
+    protected $page;
+
 	/**
 	 * Initialize the gateway
 	 * 
 	 * @param Accreditation $accreditation Access credentials
 	 * @param Merchant $merchant Merchant data
 	 * @param string $mode Environment
+     * @param int $page Hosted Page Set ID
 	 * @throws GatewayException
 	 */
-	public function __construct(Accreditation $accreditation, Merchant $merchant, $mode)
+	public function __construct(Accreditation $accreditation, Merchant $merchant, $mode, $page)
 	{
 		if (!in_array($mode, [self::ENV_DEV, self::ENV_PROD])) {
 			throw new GatewayException(sprintf('Invalid mode supplied (\'%s\')', $mode));
@@ -117,6 +141,7 @@ class Gateway implements DataSource, LoggerAwareInterface
 		$this -> accreditation	 = $accreditation;
 		$this -> merchant		 = $merchant;
 		$this -> mode			 = $mode;
+        $this -> page            = $page;
 	}
 
 	/**
@@ -209,7 +234,8 @@ class Gateway implements DataSource, LoggerAwareInterface
 			'errorurl' => $urls['error'],
 			'storeurl' => $urls['store'],
 			'date' => date('Ymd H:i:s'),
-			'ip' => $ip
+			'ip' => $ip,
+            'page_set_id' => $this->page
 		];
 	}
 
